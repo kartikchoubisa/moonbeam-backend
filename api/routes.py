@@ -33,14 +33,14 @@ class Discussion(Resource):
         try:
             discussion = DiscussionModel.query.filter_by(proposal_url=discussion_proposal_url).first()
             if discussion is None:
-                return jsonify({'message': 'Discussion not found'}), 404
+                return jsonify({'message': 'Discussion not found'}), 400
             # add comment to discussion
             content = request.json['content']
             author_address = request.json['author_address']
             comment = CommentModel(content=content, author_address=author_address, discussion_proposal_url=discussion_proposal_url)
             db.session.add(comment)
             db.session.commit()
-            return jsonify({'message': 'Comment added'})
+            return jsonify({'message': 'Comment added'}), 200
         except:
             return jsonify({'message': 'An error occurred'}), 500
 

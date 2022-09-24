@@ -49,7 +49,7 @@ class DiscussionsList(Resource):
         discussions = DiscussionModel.query.all()
         discussion_schema = DiscussionSchema(many=True)
         output = discussion_schema.dump(discussions)
-        return {'discussions': output}, 200
+        return jsonify({'discussions': output}), 200
 
     def post(self):
         # creating a new discussion whenever a new proposal is added
@@ -66,7 +66,7 @@ class DiscussionsList(Resource):
         discussion = DiscussionModel(proposal_url=proposal_url)
         db.session.add(discussion)
         db.session.commit()
-        return {'message': 'new discussion created'}, 201
+        return jsonify({'message': 'new discussion created'}), 201
 
 api.add_resource(DiscussionsList, '/discussions')
 api.add_resource(Discussion, '/discussions/<path:discussion_proposal_url>')
